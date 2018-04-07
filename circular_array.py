@@ -95,31 +95,19 @@ class CircularArray(object):
         """Instantiate CircularArray."""
 
         self._list = []
-        self.start = 0
-        self.end = -1
+        self.start = -1
+
 
     def add_item(self, item):
         """Add item to array, at the end of the current rotation."""
-        l = len(self._list)
 
-        if l == 0 or self.end == l - 1:
+        if self._list == []:
             self._list.append(item)
         else:
-            # shift things and make room for new entry, hence need to save the last one
-            last = self._list[-1]
-            for i in range(l-1, self.start, -1):
-                self._list[i] = self._list[i-1]
-            
-            self._list[self.start] = item
-            self._list.append(last)
+            self._list.insert(self.start, item)
 
-            self.start = (self.start + 1 + l) % l
+        self.start = self.start + 1
 
-
-        l = len(self._list)
-        self.end = (self.end + 1 + l) % l
-
-         
 
     def get_by_index(self, index):
         """Return the data at a particular index."""
@@ -138,7 +126,6 @@ class CircularArray(object):
         l = len(self._list)
 
         self.start = (self.start + increment + l) % l
-        self.end = (self.end + increment + l) % l
 
         
 
